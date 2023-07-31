@@ -1,0 +1,29 @@
+name: CI
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    types: [ opened, synchronize, ready_for_review ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v2
+
+    - name: Install modules
+      run: npm i
+
+    - name: Tests
+      run: |
+        npm run tests:ci
+
+    - name: Lint
+      run: |
+        npm run lint
+
+    - name: Commit changes
+      uses: EndBug/add-and-commit@v8
+      with:
+        add: 'backend/src'
+        message: 'style: lint autofix'
