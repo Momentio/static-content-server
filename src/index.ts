@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
     filename: function (req, file, cb) {
         const fileName = v4() + path.extname(file.originalname);
 
-        cb(null, fileName)
+        cb(null, fileName);
     }
 });
 
@@ -24,7 +24,7 @@ const expressApp = express();
 
 expressApp.use('/', express.static(buildPath));
 
-expressApp.post('/', upload.array("data"), (req, res) => {
+expressApp.post('/', upload.array('data'), (req, res) => {
     const files = req.files as Express.Multer.File[];
 
     if (files) {
