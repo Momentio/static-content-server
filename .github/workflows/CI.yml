@@ -7,6 +7,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+
     steps:
     - name: Clone repository
       uses: actions/checkout@v2
@@ -20,10 +25,9 @@ jobs:
 
     - name: Lint
       run: |
-        npm run lint
+        npm run lint -- --fix
 
     - name: Commit changes
-      uses: EndBug/add-and-commit@v8
+      uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        add: 'backend/src'
-        message: 'style: lint autofix'
+        commit_message: 'style: lint autofix'
