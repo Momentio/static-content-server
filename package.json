@@ -12,6 +12,7 @@
     "tests:ci": "jest --colors --verbose --forceExit"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "eventemitter3": "^4.0.7",
     "express": "^4.17.2",
