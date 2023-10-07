@@ -6,8 +6,8 @@ This project uses the following environment variables:
 | Name                          | Description                         | Default Value                                  |
 | ----------------------------- | ------------------------------------| -----------------------------------------------|
 |PORT           | The port on which the server will be launched to upload content            | 11111     |
-|CONTENT_DIR_NAME           | Content Directory           | public    |
-|PASSWORD           | Password for basic authorization           | password    |
+|CONTENT_SERVER_USER           | User for basic authorization           | client    |
+|CONTENT_SERVER_PASSWORD           | Password for basic authorization           | password    |
 
 
 # Pre-requisites
@@ -90,3 +90,10 @@ npm run lint
 
 ## npm install fails
 The current solution has an example for using a private npm repository. if you want to use the public npm repository, remove the .npmrc file.
+
+### Docker build
+
+````
+docker-compose up
+
+````

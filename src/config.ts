@@ -3,8 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const config = {
-    password: process.env.PASSWORD || 'password',
-    contentDirName: process.env.CONTENT_DIR_NAME || 'public',
-    port: Number(process.env.PORT) || 11111,
+    user: process.env.CONTENT_SERVER_USER || 'client',
+    password: process.env.CONTENT_SERVER_PASSWORD || 'password',
+    port: Number(process.env.PORT) || 3000,
 };
-

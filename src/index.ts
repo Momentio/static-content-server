@@ -7,12 +7,12 @@ import * as basicAuth from 'express-basic-auth';
 
 import {config} from './config';
 
-const {port, contentDirName, password} = config;
+const {port, user, password} = config;
 
-const buildPath = path.join(__dirname, `../${contentDirName}`);
+const buildPath = path.join(__dirname, `../public`);
 
 const storage = multer.diskStorage({
-    destination: contentDirName,
+    destination: 'public',
     filename: function (req, file, cb) {
         const fileName = v4() + path.extname(file.originalname);
 
@@ -26,7 +26,7 @@ const expressApp = express();
 
 expressApp.use(cors());
 
-const authMiddleware = basicAuth.default({users: {'client': password}});
+const authMiddleware = basicAuth.default({users: {[user]: password}});
 
 expressApp.use('/', express.static(buildPath));
 
@@ -34,8 +34,7 @@ expressApp.post('/', authMiddleware, upload.array('data'), (req, res) => {
     const files = req.files as Express.Multer.File[];
 
     if (files) {
-        const url = req.protocol + '://' + req.get('host');
-        const result = files.map(f => `${url}/${f.filename}`);
+        const result = files.map(f => f.filename);
 
         console.log('upload complete', result);
 
@@ -47,4 +46,6 @@ expressApp.post('/', authMiddleware, upload.array('data'), (req, res) => {
     return res.sendStatus(403);
 });
 
-expressApp.listen(port);
+expressApp.listen(port, () => {
+    console.log('Server running', config);
+});

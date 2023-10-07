@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        CONTENT_SERVER_USER: ${CONTENT_SERVER_USER}
+        CONTENT_SERVER_PASSWORD: ${CONTENT_SERVER_PASSWORD}
+    container_name: static-content-server
+    restart: always
+    volumes:
+      - ./public:/app/public
+    ports:
+      - "${PORT}:3000"
