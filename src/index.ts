@@ -9,7 +9,7 @@ import {config} from './config';
 
 const {port, user, password} = config;
 
-const buildPath = path.join(__dirname, `../public`);
+const buildPath = path.join(__dirname, '../public');
 
 const storage = multer.diskStorage({
     destination: 'public',
