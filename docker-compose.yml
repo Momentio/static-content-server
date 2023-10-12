@@ -13,4 +13,4 @@ services:
     volumes:
       - ./public:/app/public
     ports:
-      - "${PORT}:3000"
+      - "${CONTENT_SERVER_PORT}:3000"
