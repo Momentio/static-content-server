@@ -43,7 +43,7 @@ expressApp.get('/export', authMiddleware, (req, res) => {
         }
 
         res.writeHead(200, {
-            'Content-Disposition': `attachment; filename="content.zip"`,
+            'Content-Disposition': 'attachment; filename="content.zip"',
             'Content-Type': 'application/zip',
         });
 
