@@ -34,14 +34,8 @@ const authMiddleware = basicAuth.default({users: {[user]: password}});
 
 expressApp.use('/', express.static(buildPath));
 
-expressApp.post('/export', authMiddleware, (req, res) => {
+expressApp.get('/export', authMiddleware, (req, res) => {
     fs.readdir(buildPath, (err, files) => {
-        const targetFiles = req.body?.files;
-
-        if (targetFiles && Array.isArray(targetFiles)) {
-            files = targetFiles.filter(v => files.includes(v));
-        }
-        
         const zip = new AdmZip();
 
         for (const file of files) {
@@ -54,6 +48,33 @@ expressApp.post('/export', authMiddleware, (req, res) => {
         });
 
         res.end(zip.toBuffer());
+
+        console.log(`export ${files.length} files`);
+    });
+});
+
+expressApp.post('/import', authMiddleware, (req, res) => {
+    multer({storage: multer.memoryStorage()}).single('file')(req, null, () => {
+        if (req.file) {
+            const files = new AdmZip(req.file.buffer).getEntries();
+
+            let importedFiles = 0;
+
+            for (const file of files) {
+                const filePath = path.join(buildPath, file.name);
+                if (!fs.existsSync(filePath)) {
+                    fs.writeFileSync(filePath, file.getData());
+
+                    importedFiles++;
+                }
+            }
+
+            console.log(`import ${importedFiles} files`);
+
+            return res.sendStatus(200);
+        }
+        
+        return res.sendStatus(403);
     });
 });
 
